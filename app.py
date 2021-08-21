@@ -10,7 +10,7 @@ def main_menu():
     return dict(
         menu=[{'name': 'Index', 'url': '/'},
               {'name': 'Hey', 'url': '/hey'},
-              {'name': 'section 3', 'url': '#'}],
+              {'name': 'Login', 'url': '/login'}],
         path=request.url
     )
 
@@ -25,6 +25,12 @@ def index():  # put application's code here
 def hey():
     print(url_for('hey'))
     return render_template('hey.html', title='hey')
+
+
+@app.route('/login', methods=['post', 'get'])
+def login():
+    print(url_for('login'))
+    return render_template('login.html', title='LogIn')
 
 
 if __name__ == '__main__':

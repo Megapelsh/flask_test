@@ -39,6 +39,10 @@ footer {
     display: flex;
 }
 
+main .wrapper {
+    flex-direction: column;
+}
+
 .menu {
     display: flex;
     list-style-type: none;
@@ -75,4 +79,9 @@ footer {
 .avatar svg {
     display: block;
     margin: auto 0 auto 1em;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
 }
