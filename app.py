@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 
 app = Flask(__name__)
 
@@ -10,7 +10,8 @@ def main_menu():
     return dict(
         menu=[{'name': 'Index', 'url': '/'},
               {'name': 'Hey', 'url': '/hey'},
-              {'name': 'section 3', 'url': '#'}]
+              {'name': 'section 3', 'url': '#'}],
+        path=request.url
     )
 
 

@@ -58,7 +58,8 @@ footer {
     color: #fff;
 }
 
-.menu li a:hover {
+.menu li a:hover,
+.menu li .active {
     color: #54d318;
 }
 
