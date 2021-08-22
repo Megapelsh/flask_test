@@ -1,8 +1,8 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, flash
 
 app = Flask(__name__)
 
-menu = ['Section 1', 'Section 2', 'Section 3']
+app.config['SECRET_KEY'] = 'qovbqiybqvi84vbq3v3tllat4'
 
 
 @app.context_processor
@@ -30,8 +30,14 @@ def hey():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     print(url_for('login'))
+
     if request.method == 'POST':
         print(request.form)
+        print(request)
+        if request.form['email'] and len(request.form['password']) >2:
+            flash('Login success')
+        else:
+            flash('Yoy need to fill all the fields correctly')
     return render_template('login.html', title='LogIn')
 
 

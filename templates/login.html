@@ -2,9 +2,12 @@
 
 {% block content %}
     <div class="login_form">
+        {% for message in get_flashed_messages() %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
         <form class="login" action="/login" method="post">
-            <input type="text" name="email" value="" required>
-            <input type="text" name="password" value="" required>
+            <input type="email" name="email" value="" placeholder="email" required>
+            <input type="text" name="password" value="" placeholder="password" required>
             <input type="submit" name="login_btn" value="LogIn">
         </form>
     </div>

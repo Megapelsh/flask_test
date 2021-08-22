@@ -4,7 +4,6 @@
     box-sizing: border-box;
     text-decoration: none;
     font-size: 11pt;
-    /*font-family: 'Roboto', sans-serif;*/
     font-family: 'Open Sans', sans-serif;
     color: rgb(34, 34, 34);
 }
@@ -15,7 +14,6 @@ body {
     flex-direction: column;
     width: 100%;
     height: 100%;
-    /*max-width: 80%;*/
     margin: 0 auto;
     background: #e4ebe4;
 }
@@ -41,6 +39,7 @@ footer {
 
 main .wrapper {
     flex-direction: column;
+    height: 100%;
 }
 
 .menu {
@@ -81,7 +80,17 @@ main .wrapper {
     margin: auto 0 auto 1em;
 }
 
+.login_form {
+    max-width: 30em;
+    margin: auto;
+    padding: 2em;
+    border: 1px solid #a0a0a0;
+    border-radius: 10px;
+    background: #fff;
+}
+
 .login {
     display: flex;
     flex-direction: column;
+    min-width: 25em;
 }
