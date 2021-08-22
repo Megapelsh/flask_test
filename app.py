@@ -27,9 +27,11 @@ def hey():
     return render_template('hey.html', title='hey')
 
 
-@app.route('/login', methods=['post', 'get'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     print(url_for('login'))
+    if request.method == 'POST':
+        print(request.form)
     return render_template('login.html', title='LogIn')
 
 
