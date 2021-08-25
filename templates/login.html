@@ -2,8 +2,8 @@
 
 {% block content %}
     <div class="login_form">
-        {% for message in get_flashed_messages() %}
-            <div class="message">{{ message }}</div>
+        {% for category, message in get_flashed_messages(True) %}
+            <div class="message {{ category }}">{{ message }}</div>
         {% endfor %}
         <form class="login" action="/login" method="post">
             <input type="email" name="email" value="" placeholder="email" required>

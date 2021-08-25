@@ -14,7 +14,7 @@ body {
     flex-direction: column;
     width: 100%;
     height: 100%;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
     background: #e4ebe4;
 }
 
@@ -25,6 +25,7 @@ header {
 
 main {
     flex: 1 1 auto;
+    height: 100%;
 }
 
 footer {
@@ -42,13 +43,13 @@ main .wrapper {
     height: 100%;
 }
 
-.menu {
-    display: flex;
-    list-style-type: none;
+main .wrapper h1 {
+    display: block;
 }
 
 .menu {
     display: flex;
+    list-style-type: none;
     margin-left: auto;
 }
 
@@ -81,7 +82,7 @@ main .wrapper {
 }
 
 .login_form {
-    max-width: 30em;
+    max-width: 350em;
     margin: auto;
     padding: 2em;
     border: 1px solid #a0a0a0;
@@ -92,5 +93,24 @@ main .wrapper {
 .login {
     display: flex;
     flex-direction: column;
-    min-width: 25em;
+    min-width: 30em;
+}
+
+.message {
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.message.success {
+    background: #88c872;
+    color: #2d6318;
+    border: 1px solid #2d6318;
+    border-radius: 6px;
+}
+
+.message.error {
+    background: #f3756c;
+    color: #d50000;
+    border: 1px solid #d50000;
+    border-radius: 6px;
 }

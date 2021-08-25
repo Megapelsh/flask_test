@@ -34,10 +34,10 @@ def login():
     if request.method == 'POST':
         print(request.form)
         print(request)
-        if request.form['email'] and len(request.form['password']) >2:
-            flash('Login success')
+        if request.form['email'] and len(request.form['password']) > 2:
+            flash('Login success', category='success')
         else:
-            flash('Yoy need to fill all the fields correctly')
+            flash('Yoy need to fill all the fields correctly', category='error')
     return render_template('login.html', title='LogIn')
 
 
