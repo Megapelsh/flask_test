@@ -3,72 +3,76 @@ import requests
 from dotenv import load_dotenv
 import os
 from os.path import join, dirname
+import json
+import telebot
 
 app = Flask(__name__)
 
 
 def get_from_env(key):
-    dotenv_path = join(dirname(__file__), '.env')
+    dotenv_path = join(dirname(__file__), ".env")
     load_dotenv(dotenv_path)
     return os.environ.get(key)
 
 
-app.config['SECRET_KEY'] = get_from_env('SECRET_KEY')
+app.config["SECRET_KEY"] = get_from_env("SECRET_KEY")
 
 
 def send_message(chat_id, text):
-    method = 'sendMessage'
-    token = get_from_env('TELEGRAM_BOT_TOKEN')
-    url = f"https://api/telegram.org/bot{token}/{method}"
-    data = {'chat_id': chat_id, 'text': text}
-    requests.post(url, data=data)
+    method = "sendMessage"
+    token = get_from_env("TELEGRAM_BOT_TOKEN")
+    url = f"https://api.telegram.org/bot{token}/{method}"
+    headers = {'Content-Type': 'application/json'}
+    data = {"chat_id": chat_id, "text": text}
+    # requests.post(url, json.dumps(data))
+    print(url, json.dumps(data))
+    print(requests.post(url, data=json.dumps(data)).text)
+    requests.post(url, json.dumps(data))
 
 
-@app.route('/telegram', methods=['POST'])
+@app.route("/telegram", methods=["POST"])
 def process():
     print(request.json)
-    chat_id = request.json['message']['chat']['id']
-    send_message(chat_id=chat_id, text='сам привет')
+    chat_id = request.json["message"]["chat"]["id"]
+    text = "privet"
+    send_message(chat_id, text)
     return {"ok": True}
 
 
 @app.context_processor
 def main_menu():
     return dict(
-        menu=[{'name': 'Index', 'url': '/'},
-              {'name': 'Hey', 'url': '/hey'},
-              {'name': 'Login', 'url': '/login'}],
+        menu=[{"name": "Index", "url": "/"},
+              {"name": "Hey", "url": "/hey"},
+              {"name": "Login", "url": "/login"}],
         path=request.url
     )
 
 
-@app.route('/')
+@app.route("/")
 def index():  # put application's code here
-    print(url_for('index'))
-    return render_template('index.html')
+    print(url_for("index"))
+    return render_template("index.html")
 
 
-@app.route('/hey')
+@app.route("/hey")
 def hey():
-    print(url_for('hey'))
-    return render_template('hey.html', title='hey')
+    print(url_for("hey"))
+    return render_template("hey.html", title="hey")
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route("/login", methods=["POST", "GET"])
 def login():
-    print(url_for('login'))
+    print(url_for("login"))
 
-    if request.method == 'POST':
+    if request.method == "POST":
         print(request.form)
         print(request)
-        if request.form['email'] and len(request.form['password']) > 2:
-            flash('Login success', category='success')
+        if request.form["email"] and len(request.form["password"]) > 2:
+            flash("Login success", category="success")
         else:
-            flash('Yoy need to fill all the fields correctly', category='error')
-    return render_template('login.html', title='LogIn')
-
-
-
+            flash("You must to fill all the fields correctly", category="error")
+    return render_template("login.html", title="LogIn")
 
 
 if __name__ == '__main__':
