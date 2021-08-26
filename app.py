@@ -40,6 +40,7 @@ def login():
             flash('Yoy need to fill all the fields correctly', category='error')
     return render_template('login.html', title='LogIn')
 
+
 @app.route('/telegram', methods=['POST'])
 def process():
     print(request.json)
