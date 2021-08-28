@@ -18,27 +18,6 @@ def get_from_env(key):
 app.config["SECRET_KEY"] = get_from_env("SECRET_KEY")
 
 
-def send_message(chat_id, text):
-    method = "sendMessage"
-    token = get_from_env("TELEGRAM_BOT_TOKEN")
-    url = f"https://api.telegram.org/bot{token}/{method}"
-    headers = {'Content-Type': 'application/json'}
-    data = {"chat_id": chat_id, "text": text}
-    # requests.post(url, json.dumps(data))
-    print(url, json.dumps(data))
-    print(requests.post(url, data=json.dumps(data)).text)
-    requests.post(url, json.dumps(data))
-
-
-@app.route("/telegram", methods=["POST"])
-def process():
-    print(request.json)
-    chat_id = request.json["message"]["chat"]["id"]
-    text = "privet"
-    send_message(chat_id, text)
-    return {"ok": True}
-
-
 @app.context_processor
 def main_menu():
     return dict(
@@ -47,6 +26,30 @@ def main_menu():
               {"name": "Login", "url": "/login"}],
         path=request.url
     )
+
+
+def send_message(chat_id, text):
+    method = "sendMessage"
+    token = get_from_env("TELEGRAM_BOT_TOKEN")
+    url = f"https://api.telegram.org/bot{token}/{method}"
+    data = {"chat_id": chat_id, "text": text}
+    # requests.post(url, json.dumps(data))
+    print(requests.post(url, json=data).text)
+
+
+@app.route("/telegram", methods=["POST"])
+def process():
+    print(request.json)
+    chat_id = request.json["message"]["chat"]["id"]
+    text = "а я знаю, шо ты додик )"
+    send_message(chat_id, text)
+    return {"ok": True}
+
+
+@app.route("/check", methods=["POST", "GET"])
+def checking_post():
+    print(request.json)
+    return {"ok": True}
 
 
 @app.route("/")
