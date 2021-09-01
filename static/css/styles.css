@@ -89,7 +89,7 @@ main .wrapper h1 {
 .login_form {
     width: 35em;
     margin: auto;
-    padding: 2em;
+    padding: 3em;
     border: 1px solid #a0a0a0;
     border-radius: 10px;
     background: #fff;
@@ -101,16 +101,46 @@ main .wrapper h1 {
     width: 100%;
 }
 
+input[type=email],
+input[type=text],
 .message {
     padding: 1em;
-    margin-bottom: 1em;
+    margin-bottom: 2em;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+input[type=email]:hover,
+input[type=text]:hover,
+input[type=email]:focus,
+input[type=text]:focus {
+    border: 1px solid #88c872;
+    outline: none;
+}
+
+input[type=submit] {
+    padding: 1em;
+    margin-bottom: 2em;
+    border-radius: 2em;
+    outline: none;
+    border: none;
+    background: #14a800;
+    color: #f2f2f2;
+    font-weight: bold;
+}
+
+input[type=submit]:hover,
+input[type=submit]:focus {
+    outline: none;
+    border: none;
+    background: #3c8224;
+    transition: background 0.5s ease;
 }
 
 .message.success {
     background: #88c872;
     color: #2d6318;
     border: 1px solid #2d6318;
-    border-radius: 6px;
 }
 
 .message.error {
@@ -121,6 +151,8 @@ main .wrapper h1 {
 }
 
 
+
+
 @media (max-width: 1100px) {
     * {
         font-size: 18pt;
@@ -128,6 +160,7 @@ main .wrapper h1 {
 
     .login_form {
         width: 90%;
+        padding: 2em;
     }
 
 

@@ -8,7 +8,7 @@
                 {% for menu_item in menu %}
                 <li>
                     <a href=" {{ menu_item.url }} "
-                        {% if menu_item.url == url_for(request.endpoint) %}
+                        {% if menu_item.url == request.path %}
                             class="active"
                         {% endif %}
                     > {{ menu_item.name }} </a>

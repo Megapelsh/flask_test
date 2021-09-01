@@ -78,5 +78,10 @@ def login():
     return render_template("login.html", title="LogIn")
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("404.html", title="Page not found")
+
+
 if __name__ == '__main__':
     app.run()
