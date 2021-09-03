@@ -8,15 +8,16 @@
     color: rgb(34, 34, 34);
 }
 
-
-
-
 html,
 body {
     display: flex;
     flex-direction: column;
     height: 100%;
     background: #e4ebe4;
+}
+
+a {
+    color: #14a800;
 }
 
 header {

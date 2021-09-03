@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, flash
+from flask import Flask, render_template, url_for, request, flash, session, redirect, abort
 import requests
 from dotenv import load_dotenv
 import os
@@ -67,20 +67,45 @@ def hey():
 @app.route("/login", methods=["POST", "GET"])
 def login():
     print(url_for("login"))
+    print(request)
+    print(request.form)
 
-    if request.method == "POST":
-        print(request.form)
-        print(request)
-        if request.form["email"] and len(request.form["password"]) > 2:
-            flash("Login success", category="success")
-        else:
-            flash("You must to fill all the fields correctly", category="error")
+    if 'userLogged' in session:
+        return redirect(url_for('profile', username=session['userLogged']))
+
+    if request.method == "POST" and request.form["email"] and len(request.form["password"]) > 2:
+
+        if request.form['email'] == '1@w.t' and request.form['password'] == '123':
+            session['userLogged'] = request.form['email']
+            return redirect(url_for('profile', username=session['userLogged']))
+        flash("Login success", category="success")
+
+    elif request.method == 'POST':
+        flash("You must to fill all the fields correctly", category="error")
     return render_template("login.html", title="LogIn")
+
+
+@app.route("/profile/<username>")
+def profile(username):
+    # return f"User {username} profile"
+    if 'userLogged' not in session or session['userLogged'] != username:
+        abort(401)
+    return render_template("profile.html", title="Profile", username=session['userLogged'])
+
+
+@app.route("/logout")
+def logout():
+    return f"You are logged out {session.pop('userLogged', None)} profile"
 
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template("404.html", title="Page not found")
+    return render_template("404.html", title="Page not found"), 404
+
+
+@app.errorhandler(401)
+def error_page(error):
+    return render_template('error.html', title="Error 401", error=error), 401
 
 
 if __name__ == '__main__':
