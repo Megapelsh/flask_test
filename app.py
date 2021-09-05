@@ -1,10 +1,12 @@
-from flask import Flask, render_template, url_for, request, flash, session, redirect, abort
-import requests
-from dotenv import load_dotenv
 import os
 from os.path import join, dirname
-import json
-import telebot
+
+import sqlite3
+
+import requests
+from dotenv import load_dotenv
+from flask import Flask, render_template, url_for, request, flash, session
+from flask import redirect, abort, g
 
 app = Flask(__name__)
 
@@ -16,6 +18,30 @@ def get_from_env(key):
 
 
 app.config["SECRET_KEY"] = get_from_env("SECRET_KEY")
+app.config["DATABASE"] = get_from_env("DATABASE")
+app.config["DEBUG"] = get_from_env("DEBUG")
+
+app.config.update(dict(DATABASE=os.path.join(app.root_path, 'flsite.db')))
+
+
+def connect_db():
+    conn = sqlite3.connect(app.config['DATABASE'])
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def create_db():
+    db = connect_db()
+    with app.open_resource('sq_db.sql', mode='r') as f:
+        db.cursor().executescript(f.read())
+    db.commit()
+    db.close()
+
+
+def get_db():
+    if not hasattr(g, 'link_db'):
+        g.link_db = connect_db()
+    return g.link_db
 
 
 @app.context_processor
@@ -55,6 +81,8 @@ def checking_post():
 @app.route("/")
 def index():  # put application's code here
     print(url_for("index"))
+    print(app.config['SECRET_KEY'])
+    db = get_db()
     return render_template("index.html")
 
 
@@ -100,7 +128,7 @@ def logout():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template("404.html", title="Page not found"), 404
+    return render_template("error.html", title="Page not found", error=error), 404
 
 
 @app.errorhandler(401)
