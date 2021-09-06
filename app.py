@@ -81,7 +81,7 @@ def checking_post():
 @app.route("/")
 def index():  # put application's code here
     print(url_for("index"))
-    print(app.config['SECRET_KEY'])
+    print('Secret key is: ', app.config['SECRET_KEY'])
     db = get_db()
     return render_template("index.html")
 
@@ -124,6 +124,12 @@ def profile(username):
 @app.route("/logout")
 def logout():
     return f"You are logged out {session.pop('userLogged', None)} profile"
+
+
+@app.teardown_appcontext
+def close_db(error):
+    if hasattr(g, 'link_db'):
+        g.link_db.close()
 
 
 @app.errorhandler(404)
