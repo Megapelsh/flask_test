@@ -1,4 +1,5 @@
 import os
+import sys
 from os.path import join, dirname
 
 import sqlite3
@@ -7,6 +8,11 @@ import requests
 from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, request, flash, session
 from flask import redirect, abort, g
+
+from FDataBase import FDataBase
+# from db_connect import connect_db
+import db_connect
+
 
 app = Flask(__name__)
 
@@ -42,6 +48,11 @@ def get_db():
     if not hasattr(g, 'link_db'):
         g.link_db = connect_db()
     return g.link_db
+
+
+# dataBase = get_db()
+# dbase = FDataBase(get_db())
+# menu = dbase.getmenu()
 
 
 @app.context_processor
@@ -80,10 +91,13 @@ def checking_post():
 
 @app.route("/")
 def index():  # put application's code here
+    db = get_db()
+    dbase = FDataBase(db)
+    menu_db = dbase.getmenu()
     print(url_for("index"))
     print('Secret key is: ', app.config['SECRET_KEY'])
-    db = get_db()
-    return render_template("index.html")
+    print(menu_db)
+    return render_template("index.html", menu_db=menu_db)
 
 
 @app.route("/hey")

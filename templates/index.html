@@ -4,6 +4,12 @@
     <p>Main page content</p>
     <a href="/hey">Hey</a>
 
+    {{ menu_db }}
+    {% for menu_item in menu_db %}
+
+        <p> {{ menu_item.url }} -- {{ menu_item.title }} </p>
+    {% endfor %}
+
 {% endblock %}
 
 
