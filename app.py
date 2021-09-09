@@ -11,7 +11,6 @@ from flask import redirect, abort, g
 
 from FDataBase import FDataBase
 # from db_connect import connect_db
-import db_connect
 
 
 app = Flask(__name__)
@@ -36,12 +35,12 @@ def connect_db():
     return conn
 
 
-def create_db():
-    db = connect_db()
-    with app.open_resource('sq_db.sql', mode='r') as f:
-        db.cursor().executescript(f.read())
-    db.commit()
-    db.close()
+# def create_db():
+#     db = connect_db()
+#     with app.open_resource('sq_db.sql', mode='r') as f:
+#         db.cursor().executescript(f.read())
+#     db.commit()
+#     db.close()
 
 
 def get_db():
@@ -50,17 +49,20 @@ def get_db():
     return g.link_db
 
 
-# dataBase = get_db()
-# dbase = FDataBase(get_db())
-# menu = dbase.getmenu()
+def dbase():
+    db = get_db()
+    dbase = FDataBase(db)
+    return dbase
 
 
 @app.context_processor
 def main_menu():
     return dict(
-        menu=[{"name": "Index", "url": "/"},
-              {"name": "Hey", "url": "/hey"},
-              {"name": "Login", "url": "/login"}],
+        # menu=[{"name": "Index", "url": "/"},
+        #       {"name": "Hey", "url": "/hey"},
+        #       {"name": "Login", "url": "/login"}],
+        dbase=dbase(),
+        menu=dbase().getmenu(),
         path=request.url
     )
 
@@ -91,13 +93,11 @@ def checking_post():
 
 @app.route("/")
 def index():  # put application's code here
-    db = get_db()
-    dbase = FDataBase(db)
-    menu_db = dbase.getmenu()
+    # menu = dbase().getmenu()
     print(url_for("index"))
     print('Secret key is: ', app.config['SECRET_KEY'])
-    print(menu_db)
-    return render_template("index.html", menu_db=menu_db)
+    # print(menu)
+    return render_template("index.html")
 
 
 @app.route("/hey")
@@ -138,6 +138,24 @@ def profile(username):
 @app.route("/logout")
 def logout():
     return f"You are logged out {session.pop('userLogged', None)} profile"
+
+
+@app.route("/add_post", methods=["POST", "GET"])
+def addPost():
+    # db = get_db()
+    # dbase = FDataBase(db)
+    # dbase = dbase()
+    if request.method == "POST":
+        if len(request.form['name']) > 4 and len(request.form['post']) > 10:
+            res = dbase().addPost(request.form['name'], request.form['post'])
+            if not res:
+                flash('Add article error', category='error')
+            else:
+                flash('Add article successful', category='success')
+        else:
+            flash('Add article error', category='error')
+
+    return render_template('add_post.html', title='Add article')
 
 
 @app.teardown_appcontext
