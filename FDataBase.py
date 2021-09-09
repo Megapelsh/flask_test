@@ -29,3 +29,14 @@ class FDataBase:
             return False
 
         return True
+
+    def showPostList(self):
+        sql = '''SELECT id, title FROM posts'''
+        try:
+            self.__cur.execute(sql)
+            res = self.__cur.fetchall()
+            if res:
+                return res
+        except:
+            print('DB read error')
+        return []

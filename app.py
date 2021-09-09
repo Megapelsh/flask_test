@@ -1,5 +1,4 @@
 import os
-import sys
 from os.path import join, dirname
 
 import sqlite3
@@ -10,7 +9,6 @@ from flask import Flask, render_template, url_for, request, flash, session
 from flask import redirect, abort, g
 
 from FDataBase import FDataBase
-# from db_connect import connect_db
 
 
 app = Flask(__name__)
@@ -58,9 +56,6 @@ def dbase():
 @app.context_processor
 def main_menu():
     return dict(
-        # menu=[{"name": "Index", "url": "/"},
-        #       {"name": "Hey", "url": "/hey"},
-        #       {"name": "Login", "url": "/login"}],
         dbase=dbase(),
         menu=dbase().getmenu(),
         path=request.url
@@ -72,7 +67,6 @@ def send_message(chat_id, text):
     token = get_from_env("TELEGRAM_BOT_TOKEN")
     url = f"https://api.telegram.org/bot{token}/{method}"
     data = {"chat_id": chat_id, "text": text}
-    # requests.post(url, json.dumps(data))
     print(requests.post(url, json=data).text)
 
 
@@ -93,11 +87,11 @@ def checking_post():
 
 @app.route("/")
 def index():  # put application's code here
-    # menu = dbase().getmenu()
     print(url_for("index"))
     print('Secret key is: ', app.config['SECRET_KEY'])
-    # print(menu)
-    return render_template("index.html")
+    print(main_menu()['menu'])
+    article_list = dbase().showPostList()
+    return render_template("index.html", article_list=article_list)
 
 
 @app.route("/hey")
@@ -142,9 +136,6 @@ def logout():
 
 @app.route("/add_post", methods=["POST", "GET"])
 def addPost():
-    # db = get_db()
-    # dbase = FDataBase(db)
-    # dbase = dbase()
     if request.method == "POST":
         if len(request.form['name']) > 4 and len(request.form['post']) > 10:
             res = dbase().addPost(request.form['name'], request.form['post'])
