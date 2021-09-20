@@ -1,6 +1,7 @@
 import sqlite3
 import math
 import time
+import iuliia
 
 
 class FDataBase:
@@ -21,7 +22,13 @@ class FDataBase:
     def addPost(self, title, post):
         try:
             tm = math.floor(time.time())
-            self.__cur.execute('INSERT INTO posts VALUES (NULL , ?, ?, ?)', (title, post, tm))
+            url = iuliia.translate(title, schema=iuliia.Schemas.get("wikipedia"))
+            self.__cur.execute(f"SELECT COUNT() as 'count' FROM posts WHERE url LIKE '{url}'")
+            res = self.__cur.fetchone()
+            if res['count'] > 0:
+                for i in res['count']:
+                    url = url + '_'
+            self.__cur.execute('INSERT INTO posts VALUES (NULL , ?, ?, ?, ?)', (title, post, url, tm))
             self.__db.commit()
         except sqlite3.Error as e:
             print('Article add error in DB' + str(e))

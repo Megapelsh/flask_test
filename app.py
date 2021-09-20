@@ -33,12 +33,12 @@ def connect_db():
     return conn
 
 
-# def create_db():
-#     db = connect_db()
-#     with app.open_resource('sq_db.sql', mode='r') as f:
-#         db.cursor().executescript(f.read())
-#     db.commit()
-#     db.close()
+def create_db():
+    db = connect_db()
+    with app.open_resource('sq_db.sql', mode='r') as f:
+        db.cursor().executescript(f.read())
+    db.commit()
+    db.close()
 
 
 def get_db():
