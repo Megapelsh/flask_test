@@ -88,8 +88,6 @@ def checking_post():
 @app.route("/")
 def index():  # put application's code here
     print(url_for("index"))
-    print('Secret key is: ', app.config['SECRET_KEY'])
-    print(main_menu()['menu'])
     article_list = dbase().showPostList()
     return render_template("index.html", article_list=article_list)
 
@@ -147,6 +145,12 @@ def addPost():
             flash('Add article error', category='error')
 
     return render_template('add_post.html', title='Add article')
+
+
+@app.route("/post/<int:post_id>")
+def showPost(post_id):
+    article = dbase().getPost(post_id)
+    return render_template("post.html", title=article[0], article=article)
 
 
 @app.teardown_appcontext

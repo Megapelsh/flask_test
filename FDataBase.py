@@ -9,14 +9,13 @@ class FDataBase:
         self.__cur = db.cursor()
 
     def getmenu(self):
-        sql = '''SELECT * FROM mainmenu'''
         try:
-            self.__cur.execute(sql)
+            self.__cur.execute('SELECT * FROM mainmenu')
             res = self.__cur.fetchall()
             if res:
                 return res
-        except:
-            print('DB read error')
+        except sqlite3.Error as e:
+            print('DB read error'+str(e))
         return []
 
     def addPost(self, title, post):
@@ -31,12 +30,22 @@ class FDataBase:
         return True
 
     def showPostList(self):
-        sql = '''SELECT id, title FROM posts'''
         try:
-            self.__cur.execute(sql)
+            self.__cur.execute('SELECT id, title FROM posts ORDER BY time DESC ')
             res = self.__cur.fetchall()
             if res:
                 return res
-        except:
-            print('DB read error')
+        except sqlite3.Error as e:
+            print('DB read error'+str(e))
+        return []
+
+    def getPost(self, post_id):
+        sql = '''SELECT title, text, time FROM posts WHERE id = 1'''
+        try:
+            self.__cur.execute(f'SELECT title, text, time FROM posts WHERE id = {post_id} LIMIT 1')
+            res = self.__cur.fetchone()
+            if res:
+                return res
+        except sqlite3.Error as e:
+            print('DB read error'+str(e))
         return []

@@ -1,17 +1,22 @@
 {% extends 'main.html' %}
 
 {% block content %}
+    <div class="add_post_form">
+        {% for category, message in get_flashed_messages(True) %}
+            <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
 
-    {% for cat, msg in get_flashed_messages(True) %}
-        <div class="flash {{ cat }}">{{ msg }}</div>
-    {% endfor %}
-
-    <form action="{{ url_for('addPost') }}" method="POST" class="">
-        <label for="name">Article name</label>
-        <input type="text" name="name" required>
-        <label for="post">Article text</label>
-        <textarea name="post" id="" cols="40" rows="7"></textarea>
-        <input type="submit" value="Add article">
-    </form>
-
+        <form class="add_form" action="{{ url_for('addPost') }}" method="POST" class="">
+{#            <label for="name">Article name</label>#}
+            <input type="text" name="name" placeholder="Article name" required>
+{#            <label for="post">Article text</label>#}
+            <textarea name="post" id="" cols="40" rows="7" placeholder="Article text" required></textarea>
+            <input type="submit" value="Add article">
+        </form>
+    </div>
 {% endblock %}
+
+
+
+
+

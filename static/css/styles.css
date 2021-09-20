@@ -20,6 +20,8 @@ a {
     color: #14a800;
 }
 
+
+
 header {
     display: flex;
     background: #1d4354;
@@ -47,6 +49,7 @@ main .wrapper {
 
 main .wrapper h1 {
     display: block;
+    margin-bottom: 1em;
 }
 
 .menu {
@@ -96,7 +99,8 @@ main .wrapper h1 {
     background: #fff;
 }
 
-.login {
+.login,
+.add_form {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -104,6 +108,7 @@ main .wrapper h1 {
 
 input[type=email],
 input[type=text],
+textarea,
 .message {
     padding: 1em;
     margin-bottom: 2em;
@@ -111,10 +116,16 @@ input[type=text],
     border: 1px solid #e0e0e0;
 }
 
+textarea {
+    resize: vertical;
+}
+
 input[type=email]:hover,
 input[type=text]:hover,
 input[type=email]:focus,
-input[type=text]:focus {
+input[type=text]:focus,
+textarea:hover,
+textarea:focus {
     border: 1px solid #88c872;
     outline: none;
 }
@@ -151,6 +162,16 @@ input[type=submit]:focus {
     border-radius: 6px;
 }
 
+
+
+.add_post_form {
+    width: 100%;
+    margin: 0 auto;
+    padding: 3em;
+    border: 1px solid #a0a0a0;
+    border-radius: 10px;
+    background: #fff;
+}
 
 
 
